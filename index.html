@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f5f7fa" />
+  <meta name="description" content="Create clean Power BI background layouts with customizable HEX colors." />
+  <title>Power BI Background Studio — V4</title>
+  <style>
+    :root{color-scheme:dark;--bg:#0a101b;--panel:#101928;--panel2:#151f30;--line:#273346;--line2:#202c3e;--text:#ecf1f8;--muted:#8e9bb0;--muted2:#687991;--accent:#a2efd1;--accentDark:#1c473f;--font:Inter,"Segoe UI",ui-sans-serif,system-ui,-apple-system,sans-serif}
+    *{box-sizing:border-box}html{min-height:100%}body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);font-size:13px;-webkit-font-smoothing:antialiased}button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}a{color:inherit}
+    .app{min-height:100vh}.topbar{height:73px;display:flex;align-items:center;justify-content:space-between;padding:0 29px;border-bottom:1px solid var(--line2);gap:20px;background:linear-gradient(180deg,#101827,#0c1421)}
+    .brand{display:flex;align-items:center;gap:12px;white-space:nowrap}.brand-mark{width:35px;height:35px;display:grid;place-items:center;border-radius:11px;background:#a2efd1;color:#0a1a21;font-size:19px;font-weight:950;letter-spacing:-4px;padding-right:4px;transform:rotate(-4deg)}.brand-name{font-size:17px;font-weight:800;letter-spacing:.08em}.brand-sub{color:var(--muted);font-size:11px;letter-spacing:.08em;margin-left:9px;font-weight:600}.top-center{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:8px 13px;color:#a5b5c8;font-size:11px;font-weight:650}.top-center .dot{width:6px;height:6px;background:#75e5c4;border-radius:50%}.top-actions{display:flex;align-items:center;gap:8px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid #354256;border-radius:10px;padding:10px 13px;background:#172234;color:#dfe8f5;font-size:12px;font-weight:700;min-height:36px;transition:background .15s,border .15s,transform .15s;white-space:nowrap}.btn:hover{background:#223147;border-color:#52677f}.btn:active{transform:translateY(1px)}.btn.primary{background:var(--accent);color:#09211c;border-color:var(--accent)}.btn.primary:hover{background:#ccffe9;border-color:#ccffe9}.btn.ghost{background:transparent;border-color:transparent;color:#aabace}.btn.ghost:hover{background:#1c283c}.btn.compact{padding:8px 11px;min-height:32px}.btn.iconbtn{padding:8px;width:34px;min-width:34px}.btn svg,.toolbtn svg{width:15px;height:15px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    .appbody{display:grid;grid-template-columns:262px minmax(420px,1fr) 313px;min-height:calc(100vh - 73px)}.side{background:#0f1827;padding:23px 17px 20px;overflow-y:auto}.side.left{border-right:1px solid var(--line2)}.side.right{border-left:1px solid var(--line2);padding:23px 19px}.eyebrow{font-weight:800;letter-spacing:.18em;font-size:10px;color:#74869d;text-transform:uppercase}.side-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.section-heading{font-size:13px;font-weight:750;letter-spacing:-.01em;margin:0}.section-count{border:1px solid #344457;background:#182437;color:#a5b8cd;border-radius:7px;padding:3px 6px;font-size:10px}
+    .left-intro{margin:10px 2px 21px;color:#9baabd;font-size:12px;line-height:1.6}.template-list{display:flex;flex-direction:column;gap:9px}.template{display:grid;grid-template-columns:83px 1fr;gap:12px;align-items:center;padding:8px;background:#121d2d;border:1px solid #28374a;border-radius:12px;text-align:left;color:var(--text);width:100%;transition:border .16s,background .16s,transform .16s}.template:hover{background:#1a283a;border-color:#586b81}.template.active{border-color:#9ae8cd;background:#1b2f37;box-shadow:0 0 0 1px rgba(162,239,209,.15) inset}.template .thumb{width:83px;aspect-ratio:16/9;display:block;background:#172436;border-radius:5px;object-fit:cover;border:1px solid #364355}.template .tname{font-size:12px;font-weight:780;display:block}.template .tdesc{font-size:10px;color:#889bb0;display:block;margin-top:5px;line-height:1.4}.template.active .tdesc{color:#a0c3b9}
+    .left-guide{margin-top:23px;padding:14px;border:1px solid #314354;background:linear-gradient(135deg,#192f3c,#162335);border-radius:12px}.left-guide strong{font-size:12px}.left-guide p{font-size:11px;line-height:1.65;color:#afc0d1;margin:7px 0 0}.left-guide b{color:#a8f2d8}
+    .workspace{min-width:0;padding:28px 35px 32px;display:flex;flex-direction:column;background:radial-gradient(ellipse at 50% 40%,#16243a 0%,#0b1220 65%,#0a101b 100%);overflow:auto}.workspace-top{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:25px}.workspace h1{font-size:26px;line-height:1.13;letter-spacing:-.04em;font-weight:790;margin:9px 0 9px}.workspace .lead{color:#8c9fb7;font-size:12px;margin:0;line-height:1.5}.view-switch{border:1px solid #314059;background:#131e2f;padding:4px;border-radius:10px;display:flex;gap:3px}.view-switch button{background:none;color:#8295ad;border:0;border-radius:7px;padding:8px 11px;font-size:11px;font-weight:700;white-space:nowrap}.view-switch button.active{background:#26364c;color:#e5edf7;box-shadow:0 1px 5px #07101f}
+    .canvas-topbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin:0 0 11px}.canvas-meta{display:flex;align-items:center;gap:10px;font-size:11px;color:#a6b5c8}.status-chip{display:inline-flex;align-items:center;gap:6px;background:#1c2c3a;border:1px solid #2d474a;border-radius:6px;padding:5px 8px;color:#9edfcf;font-size:10px;font-weight:700}.status-chip:before{content:"";height:5px;width:5px;border-radius:50%;background:#8cefd0}.toolbar{display:flex;align-items:center;gap:7px}.toolbtn{border:1px solid #344156;color:#c4d0e0;background:#152035;border-radius:8px;padding:7px 9px;font-size:11px;display:inline-flex;align-items:center;gap:6px}.toolbtn:hover{background:#26354a}.toolbtn.active{color:var(--accent);border-color:#4c7974;background:#193a3d}
+    .board-outer{background:#111a29;border:1px solid #2e3b50;border-radius:17px;padding:19px;box-shadow:0 21px 100px rgba(0,0,0,.25);position:relative}.board-rulers{display:flex;justify-content:space-between;padding:0 2px 12px;font-size:10px;color:#637890;letter-spacing:.05em}.board{position:relative;width:100%;max-width:1300px;aspect-ratio:16/9;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.34),0 0 0 1px #5a687644;margin-inline:auto;background:#0b1121;user-select:none;touch-action:none}.board svg{width:100%;height:100%;display:block}.board.grid-on:after{content:"";position:absolute;inset:0;background-image:linear-gradient(to right,rgba(200,239,255,.13) 1px,transparent 1px),linear-gradient(to bottom,rgba(200,239,255,.13) 1px,transparent 1px);background-size:5% 8.333333%;pointer-events:none}.board:focus{outline:none}.board.design-mode [data-zone]{cursor:move}.board.design-mode [data-zone]:hover .zone-outline{stroke:#9df6df;stroke-width:3;stroke-opacity:.8}.board.design-mode [data-handle]{cursor:nwse-resize}.board.sample-mode [data-zone]{cursor:default}
+    .board-caption{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:13px 4px 0;color:#8494a9;font-size:11px;line-height:1.4}.board-caption strong{color:#b0c8d5;font-weight:700}.workspace-bottom{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.insight{background:#111c2b;border:1px solid #27384a;border-radius:12px;padding:15px;display:flex;align-items:flex-start;gap:10px}.insight .cube{border:1px solid #395263;background:#1c3340;color:#b1eee1;width:32px;height:32px;border-radius:9px;display:grid;place-items:center;flex:none;font-weight:850}.insight h3{font-size:11px;margin:0 0 5px;font-weight:790}.insight p{font-size:11px;line-height:1.5;color:#8a9db4;margin:0}
+    .panelhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:19px}.right-title{font-size:15px;font-weight:800;letter-spacing:-.02em}.panel-sub{font-size:11px;color:#7e91aa;margin-top:4px}.section{border-top:1px solid #273448;padding-top:19px;margin-top:20px}.section-first{margin-top:0;border-top:0;padding-top:0}.section-label{font-size:11px;font-weight:780;color:#cbd7e5;letter-spacing:.01em;margin-bottom:13px;display:flex;align-items:center;justify-content:space-between}.field{margin:0 0 13px}.field>label,.mini-label{display:block;font-size:11px;color:#9dacbf;margin-bottom:7px;font-weight:600}.textinput,.selectinput,.numberinput{width:100%;height:36px;border:1px solid #334157;border-radius:9px;background:#151f30;color:#eef4fb;padding:0 11px;font-size:12px;outline:none;min-width:0}.textinput:hover,.selectinput:hover,.numberinput:hover{border-color:#556a84}.textinput:focus,.selectinput:focus,.numberinput:focus{border-color:#9eeacb}.input-row{display:grid;grid-template-columns:1fr 1fr;gap:9px}.selectinput{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='m1 1 4 4 4-4' fill='none' stroke='%23a8bbcc' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;padding-right:26px}
+    .palette-list{display:flex;gap:8px;flex-wrap:wrap}.palette{border:2px solid transparent;padding:3px;border-radius:10px;background:transparent;display:flex;align-items:center;justify-content:center}.palette:hover{border-color:#67758a}.palette.active{border-color:#a8efd7}.palette-swatch{display:flex;width:37px;height:30px;border-radius:6px;overflow:hidden;align-items:stretch;border:1px solid #fff2}.palette-swatch i{height:100%;flex:1}.palette-swatch i:first-child{flex:1.5}.colors{display:flex;flex-direction:column;gap:9px;margin-top:15px}.colorline{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px}.colorline label{font-size:11px;color:#9eaec0}.colorline .cinput{display:flex;align-items:center;gap:6px;background:#151f30;border:1px solid #334157;padding:4px 7px 4px 4px;border-radius:8px}.colorline input[type=color]{padding:0;border:0;background:none;appearance:none;width:23px;height:22px;cursor:pointer}.colorline input[type=color]::-webkit-color-swatch-wrapper{padding:0}.colorline input[type=color]::-webkit-color-swatch{border:1px solid #fff4;border-radius:4px}.colorline code{font-size:10px;color:#a4b4c7;min-width:54px}
+    .slider-row{display:flex;align-items:center;gap:12px}.slider-row input[type=range]{min-width:0;flex:1;accent-color:#a2efd1;height:5px}.slider-row output{font-size:11px;color:#d8e7f2;font-variant-numeric:tabular-nums;min-width:40px;text-align:right}.toggleline{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:12px 0;font-size:11px;color:#b2c0d1}.switch{appearance:none;width:34px;height:19px;border-radius:30px;position:relative;background:#344056;cursor:pointer;border:1px solid #516075;transition:background .15s;flex:none}.switch:checked{background:#72d9bb;border-color:#72d9bb}.switch:after{content:"";position:absolute;width:13px;height:13px;background:#e8f8f4;border-radius:50%;left:2px;top:2px;transition:transform .15s}.switch:checked:after{transform:translateX(15px);background:#10392d}.mini-hint{font-size:10.5px;line-height:1.6;color:#7286a0;margin:7px 0}.zone-selected{background:#172638;border:1px solid #3a5964;border-radius:11px;padding:12px}.zone-meta{display:flex;gap:7px;align-items:center;justify-content:space-between}.zone-pill{background:#29493f;border:1px solid #437668;color:#b4efdf;font-weight:700;padding:5px 8px;border-radius:6px;font-size:10px}.twocol{display:grid;grid-template-columns:1fr 1fr;gap:7px}.twocol label{display:block;font-size:10px;color:#94a9bb;margin-bottom:5px}.zone-actions{display:flex;gap:7px;margin-top:12px}.zone-actions .btn{flex:1}
+    .export-card{margin-top:20px;border:1px solid #355e5b;background:linear-gradient(150deg,#183630,#172739);border-radius:13px;padding:14px}.export-card h3{margin:0 0 6px;font-size:12px}.export-card p{margin:0 0 13px;color:#a1c4bc;font-size:11px;line-height:1.5}.export-buttons{display:flex;gap:7px}.export-buttons .btn{flex:1}.linkbtn{color:#a1e7d3;background:none;border:0;text-decoration:underline;text-underline-offset:3px;font-size:11px;padding:8px 0 0;font-weight:650}
+    .footerline{display:flex;justify-content:space-between;gap:15px;margin-top:auto;padding-top:21px;color:#51667b;font-size:10px}.hidden{display:none!important}.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,20px);background:#d8ffee;color:#102a24;border-radius:10px;padding:11px 18px;font-size:12px;font-weight:800;box-shadow:0 12px 45px #0008;opacity:0;pointer-events:none;z-index:30;transition:opacity .2s,transform .2s}.toast.show{opacity:1;transform:translate(-50%,0)}
+    @media(max-width:1370px){.appbody{grid-template-columns:226px minmax(400px,1fr) 280px}.side{padding:20px 12px}.side.right{padding:20px 15px}.workspace{padding:24px 23px}.template{grid-template-columns:70px 1fr;gap:10px}.template .thumb{width:70px}.brand-sub{display:none}}@media(max-width:1110px){.appbody{grid-template-columns:196px minmax(370px,1fr)}.side.right{grid-column:2;grid-row:2;border-left:0;border-top:1px solid var(--line2);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px}.right .panelhead{grid-column:1/-1}.right .export-card{grid-column:1/-1}.workspace{padding:23px}.top-center{display:none}.template{grid-template-columns:1fr;gap:7px}.template .thumb{width:100%}.section{margin-top:13px}}@media(max-width:680px){.topbar{padding:12px 14px;height:auto;min-height:64px;flex-wrap:wrap;gap:9px}.brand{width:100%}.top-actions{width:100%;display:grid;grid-template-columns:1fr 1fr 1.45fr;gap:7px}.top-actions .btn{min-width:0;font-size:11px;padding:8px 6px}.brand-name{font-size:14px}.brand-mark{width:31px;height:31px}.top-actions .ghost{display:none}.appbody{display:flex;flex-direction:column}.side.left{order:2;border-right:0;border-top:1px solid var(--line2)}.side.right{order:3;display:block;padding:20px}.workspace{order:1;padding:21px 13px}.workspace h1{font-size:23px}.workspace-top{align-items:flex-start;flex-wrap:wrap}.view-switch{width:100%}.view-switch button{flex:1}.template-list{display:grid;grid-template-columns:repeat(2,1fr)}.template{display:block}.template .thumb{width:100%;margin-bottom:8px}.board-outer{padding:9px;border-radius:12px}.board-rulers{padding-bottom:8px}.board-caption{font-size:10px}.workspace-bottom{grid-template-columns:1fr}.canvas-meta{gap:5px}.canvas-topbar{align-items:flex-start}.footerline{display:none}}
+    @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+    /* V3: Light-first editor to match corporate reporting environments */
+    :root{color-scheme:light;--bg:#F6F8FB;--panel:#FFFFFF;--panel2:#F2F5F9;--line:#DFE5ED;--line2:#E8EDF3;--text:#26364A;--muted:#6C7D90;--muted2:#8190A0;--accent:#138B66;--accentDark:#D9EEE6}
+    body{background:#F6F8FB;color:#26364A}.topbar,.side,.side.left,.side.right{background:#FFFFFF;color:#26364A;border-color:#E0E6ED}
+    .workspace{background:#F3F6FA}.workspace .lead,.left-intro,.panel-sub,.mini-hint,.field>label,.mini-label,.colorline label,.toggleline,.template .tdesc{color:#708298}
+    .template{background:#F8FAFC;border-color:#E1E7EE;color:#26364A}.template:hover{background:#EFF6F5;border-color:#91BFB4}.template.active{background:#EAF6F0;border-color:#138B66;box-shadow:none}.template.active .tdesc{color:#3E7769}
+    .template .thumb{background:white;border-color:#E0E6ED}.eyebrow{color:#667B91}.section{border-color:#E5EAF0}.section-label{color:#324256}.section-count{background:#F0F4F8;color:#597186;border-color:#E2E7EF}
+    .btn{background:white;color:#34465B;border-color:#D9E2EA}.btn:hover{background:#EDF5F1;border-color:#9CC4B6}.btn.primary{color:white;background:#138B66;border-color:#138B66}.btn.primary:hover{background:#087553;border-color:#087553}.btn.ghost{color:#486177}.btn.ghost:hover{background:#EEF3F8}
+    .textinput,.selectinput,.numberinput,.colorline .cinput{background:#FFFFFF;color:#26364A;border-color:#D8E2EB}.colorline code{color:#52667A}.selectinput{background-color:#FFFFFF}.textinput:focus,.selectinput:focus,.numberinput:focus{border-color:#138B66}
+    .board-outer{background:#FFFFFF;border-color:#E0E6ED;box-shadow:0 15px 50px #1B3C5A14}.board-rulers,.board-caption{color:#8292A2}.board-caption strong{color:#456174}.board{background:#F4F7F9;box-shadow:0 14px 40px #24405725}
+    .view-switch{background:#EAF0F5;border-color:#DEE5EC}.view-switch button{color:#6D8094}.view-switch button.active{background:white;color:#26364A;box-shadow:0 1px 5px #1D384A20}.canvas-meta{color:#64788B}.status-chip{background:#EAF6F0;border-color:#CAE8D9;color:#247653}.toolbtn{background:white;color:#425970;border-color:#DDE5ED}.toolbtn:hover,.toolbtn.active{background:#EAF6F0;color:#138B66;border-color:#9AC8B8}
+    .insight,.zone-selected{background:#FFFFFF;border-color:#E0E7EF}.insight p{color:#6D8094}.insight .cube{background:#E7F6EF;border-color:#CAE7D9;color:#138B66}.left-guide,.export-card{background:#EFF8F3;border-color:#D0E8DC;color:#263B32}.left-guide p,.export-card p{color:#5D7D6C}.left-guide b{color:#138B66}.linkbtn{color:#138B66}.zone-pill{background:#E5F6EC;color:#138B66;border-color:#B8E3C9}.twocol label{color:#60758A}.slider-row output{color:#34495B}.switch{background:#D8E2E9;border-color:#B9C9D5}.switch:checked{background:#138B66;border-color:#138B66}.footerline{color:#8A9AAD}.top-center{border-color:#DFE7EE;color:#64778A}
+  
+    /* HEX-only controls: no browser color picker or adjustment sliders. */
+    .colorline .cinput{min-width:113px;padding:4px 8px}
+    .colorline .hexonly{display:block;width:96px;min-width:96px;height:29px;background:transparent;border:0;color:#24384C;font:700 12px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.025em;outline:none;text-transform:uppercase}
+    .colorline .hexonly[aria-invalid="true"]{color:#B42318;box-shadow:0 2px 0 #B42318}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">▦</span><span class="brand-name">Background Studio</span><span class="brand-sub">POWER BI</span></div>
+    <div class="top-center"><span class="dot"></span> Independent canvas design workspace</div>
+    <div class="top-actions"><button class="btn ghost" id="newProject">New project</button><button class="btn compact" id="openProject">Open project</button><button class="btn compact" id="saveProject">Save project</button><button class="btn primary" id="topExport">Export background <span aria-hidden="true">↗</span></button></div>
+  </header>
+  <main class="appbody">
+    <aside class="side left">
+      <div class="side-heading"><span class="eyebrow">01 / Collections</span><span class="section-count">6 layouts</span></div>
+      <div class="left-intro">Intentional layouts. Designed to make your numbers stand out.</div>
+      <div class="template-list" id="templateList" aria-label="Layout templates"></div>
+      <div class="left-guide"><strong>Built for actual reports</strong><p>Each layout exports with <b>empty visual containers</b>. In Power BI: <b>Canvas background → Image → Transparency 0%</b>. Place visuals on top.</p></div>
+      <div class="footerline"><span>Studio / v4</span><span>Made for makers</span></div>
+    </aside>
+    <section class="workspace">
+      <div class="workspace-top">
+        <div><span class="eyebrow" style="color:#91bfbb">THE DESIGN WORKSPACE</span><h1>Make your data impossible to ignore.</h1><p class="lead">Modern Power BI backgrounds, built around your brand.</p></div>
+        <div class="view-switch" role="group" aria-label="Preview mode"><button id="sampleToggle" title="Design shells only">Structure only</button><button id="emptyToggle" class="active" title="Show actual exported background">Clean background</button></div>
+      </div>
+      <div class="canvas-topbar"><div class="canvas-meta"><span class="status-chip">Live canvas</span><span id="canvasDimension">1280 × 720 px</span><span>·</span><span id="activeLayout">Executive</span></div><div class="toolbar"><button class="toolbtn" id="gridBtn" title="Grid guides (G)">▦ Grid</button><button class="toolbtn" id="undoBtn" title="Undo (Ctrl+Z)" disabled>↶ Undo</button><button class="toolbtn" id="addZoneBtn" title="Add an empty chart zone">＋ Add zone</button></div></div>
+      <div class="board-outer">
+        <div class="board-rulers"><span>POWER BI CANVAS</span><span id="rulerRight">16:9 · 100% SCALE</span></div>
+        <div class="board design-mode" id="board" tabindex="0" aria-label="Editable Power BI background preview. Select and drag containers or drag their bottom-right handle to resize."></div>
+        <div class="board-caption"><span id="selectionHint"><strong>Design mode</strong> · Click a frame to select and drag it</span><span>Export is <strong>clean: no sample data</strong></span></div>
+      </div>
+      <div class="workspace-bottom">
+        <div class="insight"><span class="cube">◩</span><div><h3>Precision by default</h3><p>16:9, HD, Full HD and custom canvases. Your panels scale to the report size.</p></div></div>
+        <div class="insight"><span class="cube">◇</span><div><h3>Designed for your visuals</h3><p>Only menus, containers and shapes. No branding, titles or sample metrics are exported.</p></div></div>
+      </div>
+    </section>
+    <aside class="side right">
+      <div class="panelhead"><div><div class="right-title">Customize</div><div class="panel-sub">Inspired by premium app dashboards.</div></div><button class="btn compact iconbtn" id="resetBtn" title="Reset design" aria-label="Reset design">↻</button></div>
+      <div class="section section-first"><div class="section-label">Canvas dimensions</div><div class="field"><label for="sizeSelect">Resolution</label><select id="sizeSelect" class="selectinput"><option value="1280x720">HD · 1280 × 720</option><option value="1920x1080">Full HD · 1920 × 1080</option><option value="2560x1440">QHD · 2560 × 1440</option><option value="1440x1080">4:3 · 1440 × 1080</option><option value="custom">Custom dimensions</option></select></div><div id="customDims" class="input-row hidden"><div class="field"><label for="customWidth">Width (px)</label><input type="number" id="customWidth" class="numberinput" min="400" max="7680" value="1280"></div><div class="field"><label for="customHeight">Height (px)</label><input type="number" id="customHeight" class="numberinput" min="300" max="4320" value="720"></div></div></div>
+      
+      <div class="section"><div class="section-label">Custom colors · HEX codes only</div><div class="palette-list" id="paletteList" aria-label="Choose color palette"></div><div class="colors" id="colorList"></div></div>
+      <div class="section"><div class="section-label">Finishing touches</div><div class="field"><label for="radiusRange">Corner radius</label><div class="slider-row"><input type="range" id="radiusRange" min="0" max="34" value="18"/><output id="radiusValue">18 px</output></div></div><div class="field"><label for="opacityRange">Card surface strength</label><div class="slider-row"><input type="range" id="opacityRange" min="30" max="100" value="93"/><output id="opacityValue">93%</output></div></div><label class="toggleline">Ambient background glow <input type="checkbox" id="glowToggle" class="switch" checked /></label><label class="toggleline">Fine detail grid <input type="checkbox" id="textureToggle" class="switch" checked /></label><label class="toggleline">Card hairline borders <input type="checkbox" id="borderToggle" class="switch" checked /></label></div>
+      <div class="section"><div class="section-label">Selected container <span id="zoneCount" class="section-count">0 zones</span></div><div id="noSelection"><p class="mini-hint">Click a background container to adjust its size, position, and label.</p></div><div class="zone-selected hidden" id="zoneEditor"><div class="zone-meta"><span class="zone-pill" id="zoneType">CHART AREA</span><span style="font-size:10px;color:#7a90a8" id="zoneId">Zone 01</span></div><div class="field" style="margin-top:12px"><label for="zoneName">Container name (editor only)</label><input class="textinput" type="text" id="zoneName" maxlength="35" /></div><div class="twocol"><div><label for="zoneX">X position (%)</label><input id="zoneX" class="numberinput" type="number" min="0" max="100" step="0.1"></div><div><label for="zoneY">Y position (%)</label><input id="zoneY" class="numberinput" type="number" min="0" max="100" step="0.1"></div><div><label for="zoneW">Width (%)</label><input id="zoneW" class="numberinput" type="number" min="2" max="100" step="0.1"></div><div><label for="zoneH">Height (%)</label><input id="zoneH" class="numberinput" type="number" min="2" max="100" step="0.1"></div></div><div class="zone-actions"><button class="btn compact" id="duplicateZone">Duplicate</button><button class="btn compact" id="deleteZone">Delete</button></div></div></div>
+      <div class="export-card"><h3>Your canvas is ready</h3><p>Download a production-ready background to use under your actual Power BI visuals.</p><div class="export-buttons"><button class="btn primary" id="exportPng">↓ PNG</button><button class="btn" id="exportSvg">↓ SVG</button></div><button class="linkbtn" id="exportTheme">Download matching Power BI theme JSON ↗</button></div>
+    </aside>
+  </main>
+</div>
+<input type="file" id="loadInput" accept=".json,application/json" hidden/>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+'use strict';
+(() => {
+ const $ = id => document.getElementById(id);
+ const palettes = {
+   emerald:{label:'Emerald corporate',bg:'#F1F7F4',surface:'#FFFFFF',accent:'#138B66',text:'#193A32',muted:'#81948E',sidebar:'#D9EEE6',border:'#DCE9E3'},
+   violet:{label:'Soft violet',bg:'#F3F1FA',surface:'#FFFFFF',accent:'#6945AE',text:'#29243F',muted:'#857C9D',sidebar:'#E5DDF6',border:'#E2DDED'},
+   marine:{label:'Blue corporate',bg:'#F0F5FA',surface:'#FFFFFF',accent:'#2469B2',text:'#25384A',muted:'#73889B',sidebar:'#DDECF9',border:'#DCE6F1'},
+   peach:{label:'Warm neutral',bg:'#FAF6F1',surface:'#FFFFFF',accent:'#B86E52',text:'#403934',muted:'#968A84',sidebar:'#F2E4D9',border:'#EAE2D9'},
+   slate:{label:'Slate executive',bg:'#F4F6F8',surface:'#FFFFFF',accent:'#456985',text:'#293847',muted:'#8995A1',sidebar:'#E5EDF2',border:'#DCE4EA'},
+   lime:{label:'Fresh sage',bg:'#F5F8F2',surface:'#FFFFFF',accent:'#4B8B5A',text:'#293C30',muted:'#809586',sidebar:'#E1F0DF',border:'#DBE8DB'},
+   rose:{label:'Rose quartz',bg:'#FAF5F7',surface:'#FFFFFF',accent:'#A8537D',text:'#473340',muted:'#998590',sidebar:'#F4E3EA',border:'#EBDDE4'},
+   aqua:{label:'Fresh teal',bg:'#F0F9F9',surface:'#FFFFFF',accent:'#137E88',text:'#21434A',muted:'#7C999B',sidebar:'#D6F0EF',border:'#D9EBEA'}
+ };
+ const layouts = [
+  {id:'executive',name:'Executive Sidebar',desc:'Refined app navigation + KPI grid'},
+  {id:'bento',name:'Floating Icon Rail',desc:'Finance-inspired airy workspace'},
+  {id:'editorial',name:'Top Navigation',desc:'Wide enterprise overview'},
+  {id:'navigator',name:'Emerald Workspace',desc:'Statement green sidebar'},
+  {id:'spotlight',name:'Pastel Projects',desc:'Soft cards and progress panels'},
+  {id:'minimal',name:'Compact Sidebar',desc:'Light icon menu and clean content'}
+ ];
+ let uid=1;
+ const zone = (x,y,w,h,kind='chart',label='Visual')=>({id:'z'+(uid++),x:x/12.8,y:y/7.2,w:w/12.8,h:h/7.2,kind,label});
+ const templates = {
+  executive:()=>[zone(224,175,239,112,'kpi','Revenue'),zone(478,175,239,112,'kpi','Margin'),zone(732,175,239,112,'kpi','Orders'),zone(986,175,239,112,'kpi','Growth'),zone(224,305,598,214,'chart','Sales trend'),zone(838,305,387,214,'bars','By category'),zone(224,535,598,153,'table','Recent activity'),zone(838,535,387,153,'donut','Contribution')],
+  bento:()=>[zone(160,171,290,205,'kpi','Total balance'),zone(466,171,491,300,'bars','Engagement trend'),zone(973,171,252,144,'kpi','Net profit'),zone(973,332,252,139,'chart','Performance'),zone(160,395,290,142,'kpi','Weekly growth'),zone(160,553,797,135,'table','Transaction history'),zone(973,489,252,199,'donut','Portfolio')],
+  editorial:()=>[zone(47,220,386,140,'kpi','Operating cash'),zone(449,220,386,140,'kpi','Revenue'),zone(851,220,382,140,'kpi','Progress'),zone(47,379,775,299,'chart','Business performance'),zone(839,379,394,139,'donut','Distribution'),zone(839,535,394,143,'bars','Category split')],
+  navigator:()=>[zone(195,195,476,256,'chart','Tokenization'),zone(688,195,317,256,'kpi','Portfolio overview'),zone(1021,195,213,256,'table','Tasks'),zone(195,468,302,215,'donut','Loans share'),zone(513,468,492,215,'chart','Total savings'),zone(1021,468,213,215,'table','Activity')],
+  spotlight:()=>[zone(48,204,674,246,'table','Today tasks'),zone(740,204,491,246,'donut','Project completion'),zone(48,468,364,217,'table','Top performers'),zone(428,468,405,217,'bars','Tracker detail'),zone(849,468,382,217,'chart','Team activity')],
+  minimal:()=>[zone(199,177,334,159,'kpi','Executive score'),zone(548,177,220,159,'kpi','Sales'),zone(783,177,220,159,'kpi','Expenses'),zone(1018,177,220,159,'kpi','Opportunity'),zone(199,353,367,320,'donut','Health index'),zone(583,353,655,320,'table','Finance summary')]
+ };
+ const defaults=()=>({layout:'executive',preset:'emerald',theme:{...palettes.emerald},width:1280,height:720,title:'',subtitle:'',tag:'',radius:22,opacity:100,glow:false,texture:false,border:true,showSample:false,showGrid:false,zones:templates.executive(),selected:null});
+ let s=defaults(),history=[],drag=null,toastTimeout=null;
+ const esc=t=>String(t??'').replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[x]));
+ const clamp=(x,min,max)=>Math.max(min,Math.min(max,x));
+ const hexToRgb=h=>{let x=h.replace('#',''); if(x.length===3)x=[...x].map(a=>a+a).join('');return [0,2,4].map(n=>parseInt(x.slice(n,n+2),16)||0)};
+ const luminance=h=>{const a=hexToRgb(h).map(v=>{v/=255;return v<=.04045?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*a[0]+.7152*a[1]+.0722*a[2]};
+ const isDark=()=>luminance(s.theme.bg)<.32;
+ const rgb=(hex,alpha=1)=>`rgba(${hexToRgb(hex).join(',')},${alpha})`;
+ const rgba=(hex,a)=>{const r=hexToRgb(hex);return `#${r.map(v=>v.toString(16).padStart(2,'0')).join('')}${Math.round(clamp(a,0,1)*255).toString(16).padStart(2,'0')}`};
+ const snapshot=()=>JSON.stringify(s);
+ const checkpoint=()=>{history.push(snapshot());if(history.length>50)history.shift();$('undoBtn').disabled=false};
+ const saveLocal=()=>{try{localStorage.setItem('powerbi_studio_v4',JSON.stringify({...s,selected:null}))}catch(e){}};
+ const commit=(fn,{remember=true,ui=true}={})=>{if(remember)checkpoint();fn();if(ui)syncUI();render();saveLocal()};
+ const getZone=()=>s.zones.find(z=>z.id===s.selected);
+ const geom=z=>({x:s.width*z.x/100,y:s.height*z.y/100,w:s.width*z.w/100,h:s.height*z.h/100});
+ const px=()=>Math.min(s.width/1280,s.height/720);
+ const rr=n=>Math.round(n*100)/100;
+ const svgText=(x,y,t,size,color,weight=600,space=0)=>`<text x="${x}" y="${y}" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="${size}" fill="${color}" font-weight="${weight}" letter-spacing="${space}">${esc(t)}</text>`;
+ const rect=(x,y,w,h,r,fill,extra='')=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="${fill}" ${extra}/>`;
+ function scene(includeSamples=false,interactive=false){
+  includeSamples=false;
+  const {width:W,height:H,theme:c}=s,sc=px(),sx=W/1280,sy=H/720,dark=isDark(),ink=c.text,muted=c.muted,accent=c.accent;
+  const p=(x,y)=>[x*sx,y*sy],q=(v)=>v*sc;
+  // Intentionally draw no icon glyphs, brand names, menu labels or text.
+  const d=()=>'';
+  const elements=[];
+  elements.push(`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="Power BI background">`);
+  elements.push(`<defs><radialGradient id="glow" cx="84%" cy="-3%" r="82%"><stop offset="0%" stop-color="${accent}" stop-opacity="${dark?.23:.12}"/><stop offset="65%" stop-color="${accent}" stop-opacity="0"/></radialGradient><linearGradient id="slit" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${accent}" stop-opacity=".25"/><stop offset="1" stop-color="${accent}" stop-opacity="0"/></linearGradient><pattern id="microgrid" width="${q(36)}" height="${q(36)}" patternUnits="userSpaceOnUse"><path d="M ${q(36)} 0 L 0 0 0 ${q(36)}" fill="none" stroke="${muted}" stroke-opacity="${dark?.1:.11}" stroke-width="${q(.8)}"/></pattern></defs>`);
+  elements.push(rect(0,0,W,H,0,c.bg));
+  if(s.texture)elements.push(rect(0,0,W,H,0,'url(#microgrid)'));
+  if(s.glow){elements.push(rect(0,0,W,H,0,'url(#glow)'));elements.push(`<circle cx="${W*.99}" cy="${H*.02}" r="${q(174)}" fill="none" stroke="${accent}" stroke-opacity=".15" stroke-width="${q(.8)}"/><circle cx="${W*.99}" cy="${H*.02}" r="${q(242)}" fill="none" stroke="${accent}" stroke-opacity=".07" stroke-width="${q(.8)}"/>`)}
+  // Navigation shells remain in the exported background; demo chart content does not.
+  const solid=(x,y,w,h,r,color,extra='')=>rect(x*sx,y*sy,w*sx,h*sy,r*sc,color,extra);
+  const line=(x1,y1,x2,y2,col=muted,alpha=.18)=>`<path d="M ${x1*sx} ${y1*sy} L ${x2*sx} ${y2*sy}" stroke="${col}" stroke-opacity="${alpha}" stroke-width="${q(1)}"/>`;
+  const item=(symbol,x,y,active=false)=>{elements.push(solid(x,y,33,33,11,active?accent:rgba(muted,.095)));};
+  if(s.layout==='executive'){
+    elements.push(solid(18,18,178,684,27,c.sidebar));elements.push(d('◈',42,71,30,accent,800));elements.push(d('FORMA',80,68,18,ink,780));
+    ['Overview','Analytics','Operations','Planning','Financials','Settings'].forEach((n,i)=>{let y=171+i*65;if(i===0)elements.push(solid(33,y-27,149,43,19,'#FFFFFF'));elements.push(d(['▦','◫','◉','▤','◈','⚙'][i],49,y,15,i===0?accent:ink,750));elements.push(d(n,78,y,12,i===0?accent:ink,i===0?800:550));});
+    elements.push(d('WORKSPACE  /  PRO',44,664,10,muted,660,1));
+  }else if(s.layout==='bento'){
+    elements.push(solid(26,98,90,594,32,c.surface,`stroke="${muted}" stroke-opacity=".12"`));
+    ['▦','◫','◉','▤','⚙'].forEach((n,i)=>item(n,55,154+i*75,i===0));
+    elements.push(solid(155,31,1069,83,30,c.surface));elements.push(d('◈ FORMA',179,81,19,accent,820));
+    [470,590,710,830].forEach((x,i)=>elements.push(solid(x,63,i===0?88:74,17,9,i===0?rgba(accent,.2):rgba(muted,.12))));
+  }else if(s.layout==='editorial'){
+    elements.push(solid(28,23,1224,86,30,c.surface));elements.push(d('◈  FORMA',57,76,21,accent,800));
+    ['Dashboard','Reports','Analytics','Forecast','Settings'].forEach((n,i)=>{let x=416+i*146;if(i===0)elements.push(solid(x-13,44,116,43,20,accent));elements.push(d(n,x,70,12,i===0?'#FFFFFF':muted,i===0?800:580));});
+    elements.push(solid(49,151,88,9,5,rgba(accent,.35)));
+  }else if(s.layout==='navigator'){
+    elements.push(solid(21,20,1239,680,42,c.sidebar));elements.push(solid(159,33,1088,653,34,c.bg));
+    elements.push(d('◈',64,85,32,accent,820));
+    ['▦','◫','◉','▤','♧','⚙'].forEach((n,i)=>item(n,71,149+i*72,i===0));
+    elements.push(solid(204,74,163,15,8,rgba(ink,.18)));elements.push(solid(205,124,126,7,4,rgba(muted,.18)));
+  }else if(s.layout==='spotlight'){
+    elements.push(solid(25,22,1230,676,39,rgba(c.surface,.35),`stroke="${muted}" stroke-opacity=".26"`));
+    elements.push(solid(43,36,1193,79,31,c.surface));elements.push(d('Task workspace',65,84,19,ink,780));
+    ['Dashboard','Reports','Analytics','Schedule','Tracker'].forEach((n,i)=>{let x=410+i*144;if(i===0)elements.push(solid(x-15,56,126,37,19,accent));elements.push(d(n,x,80,12,i===0?'#FFFFFF':muted,640));});
+  }else{
+    elements.push(solid(18,19,140,683,26,c.sidebar));elements.push(d('◈',57,82,32,accent,800));
+    ['▦','◫','◎','▤','◈','⚙'].forEach((n,i)=>item(n,68,154+i*79,i===0));
+    elements.push(solid(174,22,1084,96,25,c.surface));elements.push(d('◈  FORMA / INTELLIGENCE',198,76,15,ink,740));
+    elements.push(solid(943,64,205,16,8,rgba(muted,.09)));
+  }
+  if(s.layout!=='navigator'){
+    if(s.layout==='spotlight'){elements.push(d(s.title,55,158,27,ink,800));elements.push(d(s.subtitle,922,158,11,muted,550));}
+    else if(s.layout==='editorial'){elements.push(d(s.title,49,200,26,ink,780));elements.push(d(s.subtitle,951,196,11,muted,650));}
+    else {const x=s.layout==='executive'?225:s.layout==='bento'?160:198;elements.push(d(s.title,x,154,24,ink,790));elements.push(d(s.subtitle,1000,148,10,muted,630));}
+  }
+  const selected=s.selected;
+  for(let i=0;i<s.zones.length;i++){
+    const z=s.zones[i],g=geom(z),r=Math.min(s.radius*sc,g.h/3,g.w/3);const active=interactive&&selected===z.id;
+    elements.push(`<g${interactive?` data-zone="${esc(z.id)}"`:''}>`);
+    if(dark){elements.push(`<rect x="${g.x}" y="${g.y+q(3)}" width="${g.w}" height="${g.h}" rx="${r}" fill="#020712" opacity=".15"/>`)}
+    elements.push(rect(g.x,g.y,g.w,g.h,r,rgba(c.surface,s.opacity/100),s.border?`stroke="${c.border||muted}" stroke-opacity="${dark?.65:1}" stroke-width="${q(1)}"`:'') );
+    // Accent markers appear on backgrounds without sample visual content.
+    elements.push(rect(g.x+q(16),g.y+q(17),q(z.kind==='kpi'?22:30),q(2.5),q(1.2),accent,`opacity="${z.kind==='kpi'?.9:.55}"`));
+    if(z.kind==='kpi'&&g.h>q(75))elements.push(`<circle cx="${g.x+g.w-q(21)}" cy="${g.y+q(23)}" r="${q(5)}" fill="${accent}" fill-opacity=".22" stroke="${accent}" stroke-opacity=".5" stroke-width="${q(1)}"/>`);
+    // Pure design shells only: no sample data, titles, labels or visual values.
+    if(active){elements.push(rect(g.x,g.y,g.w,g.h,r,'none',`class="zone-outline" stroke="${accent}" stroke-width="${q(2.5)}" stroke-dasharray="${q(9)} ${q(4)}"`));elements.push(rect(g.x+g.w-q(9),g.y+g.h-q(9),q(18),q(18),q(4),accent,`data-handle="${esc(z.id)}" stroke="${c.bg}" stroke-width="${q(2)}"`));}
+    else if(interactive)elements.push(rect(g.x,g.y,g.w,g.h,r,'none',`class="zone-outline" stroke="transparent" stroke-width="${q(2)}"`));
+    elements.push('</g>');
+  }
+
+  elements.push('</svg>');return elements.join('');
+ }
+ function mockSVG(z,i,g,sc,dark){
+   const {accent,text,muted}=s.theme;const q=n=>n*sc,{x,y,w,h}=g;
+   const kpis=['$12.8M','24.6%','42,890','+18.4%','$5.2M','97.2%','86.4%'];
+   if(z.kind==='kpi'){
+    const tight=h<q(110),font=Math.min(q(tight?28:39),h*.35),off=tight?q(51):q(59);
+    let out=svgText(x+q(17),y+q(37),z.label.toUpperCase().slice(0,23),q(tight?9:10),muted,660,q(.7));
+    out+=svgText(x+q(17),y+off+font*.53,kpis[i%kpis.length],font,text,760,q(-.7));
+    if(h>q(113))out+=svgText(x+w-q(18),y+h-q(17),'↗  12.4%  vs last period',q(10),accent,680).replace('<text ','<text text-anchor="end" ');
+    return out;
+   }
+   let out=svgText(x+q(18),y+q(40),z.label.toUpperCase().slice(0,35),q(10),muted,720,q(.85));
+   if(h<q(110)){
+    for(let j=0;j<4;j++)out+=rect(x+q(18)+j*(w-q(40))/4,y+q(58),Math.max(q(8),(w-q(67))/4),q(13),q(3),rgb(muted,.1+j*.03));
+    return out;
+   }
+   const chartTop=y+q(63),chartBottom=y+h-q(24),avail=chartBottom-chartTop;
+   if(z.kind==='chart'){
+    for(let k=0;k<3;k++){const Y=chartTop+avail*k/2;out+=`<path d="M ${x+q(18)} ${Y} H ${x+w-q(18)}" stroke="${muted}" stroke-opacity=".2" stroke-width="${q(1)}" stroke-dasharray="${q(3)} ${q(5)}"/>`}
+    const points=[];const N=16;for(let j=0;j<N;j++){const t=j/(N-1),mod=Math.sin(j*.88+i)*.09+Math.cos(j*1.87+i*.2)*.07,trend=.83-t*.56+mod;points.push([x+q(20)+(w-q(40))*t,chartTop+avail*clamp(trend,.09,.95)])}
+    let path='M '+points.map(pt=>pt.map(v=>rr(v)).join(' ')).join(' L ');
+    out+=`<path d="${path} L ${rr(points[N-1][0])} ${chartBottom} L ${rr(points[0][0])} ${chartBottom} Z" fill="${accent}" fill-opacity=".09"/><path d="${path}" fill="none" stroke="${accent}" stroke-width="${q(2.6)}" stroke-linejoin="round" stroke-linecap="round"/>`;
+    points.filter((v,j)=>j%4===0).forEach(pt=>out+=`<circle cx="${pt[0]}" cy="${pt[1]}" r="${q(3)}" fill="${accent}" stroke="${s.theme.surface}" stroke-width="${q(1)}"/>`);
+   }else if(z.kind==='bars'){
+    const bars=8,plotw=w-q(46),gap=q(10),bw=Math.max(q(8),(plotw-(bars-1)*gap)/bars);for(let j=0;j<bars;j++){let pct=.33+(.55*Math.abs(Math.sin(j*.83+i+.7)));let bh=avail*pct;out+=rect(x+q(20)+j*(bw+gap),chartBottom-bh,bw,bh,q(5),rgb(accent,.24+j*.074));}
+   }else if(z.kind==='donut'){
+    const rad=Math.min(avail*.42,w*.24),cx=x+w*.56,cy=chartTop+avail*.55;
+    out+=`<circle cx="${cx}" cy="${cy}" r="${rad}" fill="none" stroke="${muted}" stroke-opacity=".22" stroke-width="${q(16)}"/>`;
+    out+=`<circle cx="${cx}" cy="${cy}" r="${rad}" fill="none" stroke="${accent}" stroke-width="${q(16)}" stroke-dasharray="${rad*3.1} ${rad*6.28}" transform="rotate(-90 ${cx} ${cy})" stroke-linecap="round"/>`;
+    out+=svgText(cx,cy+q(5),'68%',q(18),text,790).replace('<text ','<text text-anchor="middle" ');
+   }else{
+    const count=Math.min(4,Math.floor(avail/q(26)));
+    for(let j=0;j<count;j++){let yy=chartTop+j*q(27);out+=rect(x+q(20),yy,q(9),q(9),q(2),rgb(accent,.7));out+=rect(x+q(40),yy,q(70),q(8),q(2),rgb(muted,.3));out+=rect(x+w-q(90),yy,q(66),q(8),q(2),rgb(accent,.15));}
+   }
+   return out;
+ }
+ function render(){
+  $('board').innerHTML=scene(false,true);$('board').style.aspectRatio=`${s.width} / ${s.height}`;
+  $('board').classList.toggle('grid-on',s.showGrid);$('board').classList.toggle('sample-mode',s.showSample);$('board').classList.toggle('design-mode',!s.showSample);
+  $('canvasDimension').textContent=`${s.width} × ${s.height} px`;
+  $('rulerRight').textContent=`${Math.abs(s.width/s.height-16/9)<.01?'16:9':(Math.abs(s.width/s.height-4/3)<.01?'4:3':'CUSTOM')} · ${s.zones.length} FRAMES`;
+  $('activeLayout').textContent=layouts.find(l=>l.id===s.layout)?.name||'Custom';$('zoneCount').textContent=`${s.zones.length} zones`;
+  $('sampleToggle').classList.toggle('active',s.showSample);$('emptyToggle').classList.toggle('active',!s.showSample);
+  $('gridBtn').classList.toggle('active',s.showGrid);$('undoBtn').disabled=history.length===0;
+  const z=getZone();$('noSelection').classList.toggle('hidden',!!z);$('zoneEditor').classList.toggle('hidden',!z);
+  if(z){$('zoneName').value=z.label;$('zoneType').textContent=z.kind.toUpperCase()+' AREA';$('zoneId').textContent='Zone '+String(s.zones.indexOf(z)+1).padStart(2,'0');for(let k of ['x','y','w','h'])$('zone'+k.toUpperCase()).value=rr(z[k]);}
+  $('selectionHint').innerHTML=s.showSample?'<strong>Inspiration preview</strong> · Sample data is not included in exports':'<strong>Design mode</strong> · Select / drag frames and resize from the lower-right handle';
+ }
+ function templatesUI(){
+  $('templateList').innerHTML=layouts.map(l=>{const old=s;const ss={...s,layout:l.id,width:1280,height:720,zones:templates[l.id](),selected:null};s=ss;const src=scene(false,false);s=old;return `<button class="template ${s.layout===l.id?'active':''}" data-layout="${l.id}" title="Use ${l.name} layout"><img alt="" class="thumb" src="data:image/svg+xml;charset=utf-8,${encodeURIComponent(src)}" /><span><span class="tname">${l.name}</span><span class="tdesc">${l.desc}</span></span></button>`}).join('');
+  $('templateList').querySelectorAll('[data-layout]').forEach(b=>b.onclick=()=>{if(b.dataset.layout===s.layout)return;commit(()=>{s.layout=b.dataset.layout;s.zones=templates[s.layout]();s.selected=null});templatesUI()});
+ }
+ function palettesUI(){
+  $('paletteList').innerHTML=Object.keys(palettes).map(k=>{let c=palettes[k];return `<button class="palette ${s.preset===k?'active':''}" data-palette="${k}" title="${c.label}" aria-label="${c.label} palette" aria-pressed="${s.preset===k}"><span class="palette-swatch"><i style="background:${c.bg}"></i><i style="background:${c.surface}"></i><i style="background:${c.accent}"></i></span></button>`}).join('');
+  $('paletteList').querySelectorAll('button').forEach(b=>b.onclick=()=>{commit(()=>{s.preset=b.dataset.palette;s.theme={...palettes[s.preset]}});palettesUI();colorsUI()});
+ }
+ const colorItems=[['bg','Page background'],['sidebar','Sidebar / menu'],['surface','Cards / panels'],['accent','Accent / active item'],['border','Card borders'],['text','Primary text'],['muted','Secondary text']];
+ function colorsUI(){
+  $('colorList').innerHTML=colorItems.map(([key,name])=>`<div class="colorline"><label for="color-${key}">${name}</label><div class="cinput"><input id="color-${key}" class="hexonly" type="text" inputmode="text" spellcheck="false" autocomplete="off" maxlength="7" value="${s.theme[key]}" aria-label="${name} HEX color" aria-invalid="false" placeholder="#FFFFFF"></div></div>`).join('');
+  colorItems.forEach(([k])=>{const input=$('color-'+k);const apply=()=>{const value=input.value.trim().toUpperCase();if(!/^#[0-9A-F]{6}$/.test(value)){input.setAttribute('aria-invalid','true');return}input.setAttribute('aria-invalid','false');input.value=value;s.preset='custom';s.theme[k]=value;palettesUI();templatesUI();render();saveLocal()};input.addEventListener('input',apply);input.addEventListener('blur',()=>{apply();if(input.getAttribute('aria-invalid')==='true'){input.value=s.theme[k];input.setAttribute('aria-invalid','false')}});});
+ }
+ function syncUI(){
+ 
+  const size=`${s.width}x${s.height}`;const opt=[...$('sizeSelect').options].find(o=>o.value===size);$('sizeSelect').value=opt?size:'custom';$('customDims').classList.toggle('hidden',!!opt);$('customWidth').value=s.width;$('customHeight').value=s.height;
+  $('radiusRange').value=s.radius;$('radiusValue').textContent=s.radius+' px';$('opacityRange').value=s.opacity;$('opacityValue').textContent=s.opacity+'%';
+  $('glowToggle').checked=s.glow;$('textureToggle').checked=s.texture;$('borderToggle').checked=s.border;
+ }
+ function loadState(data){
+  if(!data||typeof data!=='object')throw Error('Invalid project file');
+  const allowed=['layout','preset','theme','width','height','title','subtitle','tag','radius','opacity','glow','texture','border','showSample','showGrid','zones'];
+  const newState=defaults();for(const k of allowed)if(Object.prototype.hasOwnProperty.call(data,k))newState[k]=data[k];
+  if(!newState.theme||['bg','surface','accent','text','muted'].some(k=>!/^#[0-9a-f]{6}$/i.test(String(newState.theme[k]||''))))throw Error('Invalid color theme');
+  newState.theme={...palettes.emerald,...newState.theme};newState.theme=Object.fromEntries(['bg','surface','accent','text','muted','sidebar','border'].map(k=>[k,/^#[0-9a-f]{6}$/i.test(String(newState.theme[k]))?String(newState.theme[k]).toUpperCase():palettes.emerald[k]]));
+  newState.title=String(newState.title||'').slice(0,45);newState.subtitle=String(newState.subtitle||'').slice(0,64);newState.tag=String(newState.tag||'').slice(0,32);
+  newState.radius=clamp(+newState.radius||0,0,34);newState.opacity=clamp(+newState.opacity||93,30,100);
+  newState.glow=!!newState.glow;newState.texture=!!newState.texture;newState.border=!!newState.border;newState.showSample=!!newState.showSample;newState.showGrid=!!newState.showGrid;
+  if(!layouts.some(l=>l.id===newState.layout))newState.layout='executive';
+  if(!Array.isArray(newState.zones)||newState.zones.length>150)throw Error('Invalid layout zones');
+  newState.width=clamp(Number(newState.width)||1280,400,7680);newState.height=clamp(Number(newState.height)||720,300,4320);
+  newState.zones=newState.zones.filter(z=>z&&typeof z==='object'&&['x','y','w','h'].every(k=>Number.isFinite(Number(z[k])))).map(z=>({...z,id:'z'+uid++,x:clamp(+z.x,0,98),y:clamp(+z.y,0,98),w:clamp(+z.w,2,100),h:clamp(+z.h,2,100),kind:['kpi','chart','bars','table','donut'].includes(z.kind)?z.kind:'chart',label:String(z.label||'Visual').slice(0,35)}));
+  newState.selected=null;return newState;
+ }
+ function toast(t){const a=$('toast');a.textContent=t;a.classList.add('show');clearTimeout(toastTimeout);toastTimeout=setTimeout(()=>a.classList.remove('show'),2500)}
+ function filename(ext){const slug=(s.title||'dashboard').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40);return `forma-${slug}-${s.width}x${s.height}.${ext}`}
+ function download(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
+ function exportSVG(){download(new Blob([scene(false,false)],{type:'image/svg+xml;charset=utf-8'}),filename('svg'));toast('SVG background downloaded')}
+ async function exportPNG(){try{const xml=scene(false,false);const img=new Image();const blob=new Blob([xml],{type:'image/svg+xml;charset=utf-8'});const url=URL.createObjectURL(blob);await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=reject;img.src=url});const canvas=document.createElement('canvas');canvas.width=s.width;canvas.height=s.height;const ctx=canvas.getContext('2d');if(!ctx)throw Error('Canvas is not supported');ctx.drawImage(img,0,0,s.width,s.height);URL.revokeObjectURL(url);await new Promise((resolve,reject)=>canvas.toBlob(b=>b?(download(b,filename('png')),resolve()):reject(Error('PNG conversion failed')),'image/png'));toast('PNG background downloaded')}catch(e){toast('Export failed: '+e.message);console.error(e)}}
+ function exportTheme(){const c=s.theme,theme={name:'Power BI · '+(palettes[s.preset]?.label||'Custom'),dataColors:[c.accent,c.text,c.muted,c.surface,c.bg,'#ED9A79','#F4CB6B','#75A4E6'],background:c.bg,foreground:c.text,tableAccent:c.accent};download(new Blob([JSON.stringify(theme,null,2)],{type:'application/json'}),filename('theme.json'));toast('Power BI theme JSON downloaded')}
+ function saveProject(){const state={...s,selected:null,format:'BACKGROUND-STUDIO-4'};download(new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),filename('project.json'));toast('Editable project saved')}
+ function reset(){commit(()=>{s=defaults();history=[]},{remember:false});templatesUI();palettesUI();colorsUI();toast('Design reset')}
+ // Controls
+ $('newProject').addEventListener('click',()=>{if(confirm('Start a new project? Unsaved changes will be lost.'))reset()});$('resetBtn').addEventListener('click',()=>{if(confirm('Reset this design to the default?'))reset()});
+ $('sampleToggle').onclick=()=>{$('sampleToggle').classList.remove('active');s.showSample=false;render()};$('emptyToggle').onclick=()=>{s.showSample=false;render();saveLocal()};
+ $('gridBtn').onclick=()=>{s.showGrid=!s.showGrid;render();saveLocal()};
+ $('sizeSelect').onchange=e=>{if(e.target.value==='custom'){$('customDims').classList.remove('hidden');return}const [w,h]=e.target.value.split('x').map(Number);commit(()=>{s.width=w;s.height=h})};
+ for(const [id,key] of [['customWidth','width'],['customHeight','height']])$(id).addEventListener('change',e=>commit(()=>{s[key]=clamp(+e.target.value||s[key],key==='width'?400:300,key==='width'?7680:4320)}));
+
+ for(const [id,k,output] of [['radiusRange','radius','radiusValue'],['opacityRange','opacity','opacityValue']])$(id).oninput=e=>{s[k]=+e.target.value;$(output).textContent=e.target.value+(k==='radius'?' px':'%');render();saveLocal()};
+ for(const [id,k] of [['glowToggle','glow'],['textureToggle','texture'],['borderToggle','border']])$(id).onchange=e=>{s[k]=e.target.checked;render();saveLocal()};
+ $('addZoneBtn').onclick=()=>{commit(()=>{const z=zone(410,350,360,220,'chart','New chart');s.zones.push(z);s.selected=z.id;s.showSample=false});toast('New container added')};
+ $('duplicateZone').onclick=()=>{const z=getZone();if(!z)return;commit(()=>{const copy={...z,id:'z'+uid++,label:z.label+' copy',x:clamp(z.x+1.5,0,100-z.w),y:clamp(z.y+1.5,0,100-z.h)};s.zones.push(copy);s.selected=copy.id})};
+ $('deleteZone').onclick=()=>{if(!getZone())return;commit(()=>{s.zones=s.zones.filter(z=>z.id!==s.selected);s.selected=null})};
+ $('zoneName').oninput=e=>{const z=getZone();if(z){z.label=e.target.value;render();saveLocal()}};
+ for(const k of ['x','y','w','h'])$('zone'+k.toUpperCase()).onchange=e=>{let z=getZone();if(!z)return;commit(()=>{let n=Number(e.target.value);if(!Number.isFinite(n))return;if(k==='x')z.x=clamp(n,0,100-z.w);if(k==='y')z.y=clamp(n,0,100-z.h);if(k==='w')z.w=clamp(n,2,100-z.x);if(k==='h')z.h=clamp(n,2,100-z.y)})};
+ $('undoBtn').onclick=()=>{if(!history.length)return;s=JSON.parse(history.pop());syncUI();palettesUI();colorsUI();templatesUI();render();saveLocal()};
+ $('exportPng').onclick=exportPNG;$('topExport').onclick=exportPNG;$('exportSvg').onclick=exportSVG;$('exportTheme').onclick=exportTheme;$('saveProject').onclick=saveProject;
+ // Add a click-to-load for saved projects by using Shift+click on the Save Project action.
+ $('saveProject').title='Click to save your design, or Shift+click to open a saved project';
+ $('saveProject').addEventListener('click',e=>{if(e.shiftKey){e.stopImmediatePropagation();$('loadInput').click()}},true);
+ $('openProject').onclick=()=>$('loadInput').click();
+ $('loadInput').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{let data=JSON.parse(await f.text());checkpoint();s=loadState(data);syncUI();templatesUI();palettesUI();colorsUI();render();saveLocal();toast('Project loaded')}catch(err){toast(err.message)}e.target.value=''});
+ // Pointer interactions: coordinates are percentages, so export scale is independent of editor zoom.
+ const board=$('board');
+ board.addEventListener('pointerdown',e=>{if(s.showSample)return;const el=e.target.closest('[data-zone]');if(!el){if(s.selected){s.selected=null;render()}return}if(e.button!==0)return;e.preventDefault();const id=el.getAttribute('data-zone'),z=s.zones.find(v=>v.id===id);if(!z)return;if(s.selected!==id){s.selected=id;render()}const b=board.getBoundingClientRect();drag={id,mode:e.target.hasAttribute('data-handle')?'resize':'move',x:e.clientX,y:e.clientY,orig:{...z},b,moved:false};});
+ window.addEventListener('pointermove',e=>{if(!drag)return;const z=s.zones.find(z=>z.id===drag.id);if(!z)return;const dx=(e.clientX-drag.x)/drag.b.width*100,dy=(e.clientY-drag.y)/drag.b.height*100;
+  if(Math.abs(dx)+Math.abs(dy)>.15&&!drag.moved){checkpoint();drag.moved=true;}
+  if(drag.mode==='move'){z.x=clamp(drag.orig.x+dx,0,100-z.w);z.y=clamp(drag.orig.y+dy,0,100-z.h)}else{z.w=clamp(drag.orig.w+dx,2,100-z.x);z.h=clamp(drag.orig.h+dy,2,100-z.y)}
+  if(drag.moved){const u=n=>Math.round(n*2)/2;z.x=u(z.x);z.y=u(z.y);z.w=u(z.w);z.h=u(z.h)}render();
+ });
+ window.addEventListener('pointerup',()=>{if(drag){drag=null;saveLocal()}});
+ window.addEventListener('keydown',e=>{const focused=['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName);if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();$('undoBtn').click();return}if(focused)return;if(e.key.toLowerCase()==='g'){$('gridBtn').click();return}const z=getZone();if(!z)return;if(['Backspace','Delete'].includes(e.key)){e.preventDefault();$('deleteZone').click();return}const diff=e.shiftKey?1:.25;const arrows={ArrowLeft:['x',-diff],ArrowRight:['x',diff],ArrowUp:['y',-diff],ArrowDown:['y',diff]};if(arrows[e.key]){e.preventDefault();const [k,d]=arrows[e.key];checkpoint();z[k]=clamp(z[k]+d,0,100-z[k==='x'?'w':'h']);render();saveLocal()}});
+ // Resume only automatically saved designs generated by this version.
+ try{const raw=localStorage.getItem('powerbi_studio_v4');if(raw){s=loadState(JSON.parse(raw))}}catch(err){console.warn('Project autosave not loaded',err)}
+ syncUI();templatesUI();palettesUI();colorsUI();render();
+})();
+</script>
+</body>
+</html>
